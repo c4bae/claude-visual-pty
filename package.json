@@ -7,7 +7,8 @@
     "claude-overlay": "./bin/claude-overlay"
   },
   "scripts": {
-    "start": "node bin/claude-overlay"
+    "start": "node bin/claude-overlay",
+    "postinstall": "chmod +x node_modules/node-pty/prebuilds/darwin-*/spawn-helper 2>/dev/null || true"
   },
   "dependencies": {
     "node-pty": "^1.0.0",

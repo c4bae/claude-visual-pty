@@ -1,8 +1,20 @@
 import * as pty from 'node-pty';
+import { execSync } from 'child_process';
+import { realpathSync } from 'fs';
 import { ShadowTerminal } from './shadow.js';
 import { Compositor } from './compositor.js';
 import { createIPCServer } from './ipc.js';
 import { loadAnimation } from './animations/loader.js';
+
+function resolveCommand(cmd) {
+  try {
+    const whichPath = execSync(`which ${cmd}`, { encoding: 'utf-8' }).trim();
+    // Resolve symlinks to get the real binary path
+    return realpathSync(whichPath);
+  } catch {
+    return cmd;
+  }
+}
 
 export async function start(config, claudeArgs = []) {
   const cols = process.stdout.columns || 80;
@@ -18,8 +30,7 @@ export async function start(config, claudeArgs = []) {
   const animation = await loadAnimation(config.visual, config);
 
   // Spawn Claude on a PTY
-  const shell = process.env.SHELL || '/bin/zsh';
-  const claudeCommand = 'claude';
+  const claudeCommand = resolveCommand('claude');
   const ptyProcess = pty.spawn(claudeCommand, claudeArgs, {
     name: 'xterm-256color',
     cols,
