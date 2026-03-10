@@ -44,6 +44,36 @@ cd claude-code-dvd
 ./bin/claude-overlay
 ```
 
+## Default Visuals
+
+### DVD Logo (`visuals/dvd-logo.txt`)
+
+```
+╔═══════════════════════════╗
+║ ██████╗ ██╗   ██╗██████╗  ║
+║ ██╔══██╗██║   ██║██╔══██╗ ║
+║ ██║  ██║██║   ██║██║  ██║ ║
+║ ██║  ██║╚██╗ ██╔╝██║  ██║ ║
+║ ██████╔╝ ╚████╔╝ ██████╔╝ ║
+║ ╚═════╝   ╚═══╝  ╚═════╝  ║
+╚═══════════════════════════╝
+```
+
+### Claude (`visuals/claude.txt`)
+
+```
+╔════════════════════════════╗
+║      ████████████████      ║
+║      ████  ████  ████      ║
+║  ████████████████████████  ║
+║      ████████████████      ║
+║      ██  ██    ██  ██      ║
+║      ██  ██    ██  ██      ║
+╚════════════════════════════╝
+```
+
+> **Tip:** "Boxed" designs (with a border like `╔═╗║╚═╝`) tend to look better as overlays since they have a clear boundary against the terminal content.
+
 ## Configuration
 
 ### Custom Visuals
