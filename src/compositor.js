@@ -62,20 +62,29 @@ export class Compositor {
     clearInterval(this.animationInterval);
     this.animationInterval = null;
 
-    // Restore ALL cells that the overlay currently covers
+    // Repaint the entire visible screen from the shadow terminal
+    // This guarantees no stale overlay pixels remain, even after scrolling
+    const cols = stdout.columns || 80;
+    const rows = stdout.rows || 24;
     let output = '';
-    for (const key of this.activeCells) {
-      const [row, col] = key.split(',').map(Number);
-      const original = shadow.getCell(row, col);
-      output += this.buildCellSequence(row, col, original);
+    for (let row = 0; row < rows; row++) {
+      for (let col = 0; col < cols; col++) {
+        const cell = shadow.getCell(row, col);
+        // Skip second cell of wide characters
+        if (cell.width === 0) continue;
+        output += this.buildCellSequence(row, col, cell);
+        // Wide char takes two columns
+        if (cell.width === 2) col++;
+      }
     }
 
     // Restore cursor position and visibility
     const cursor = shadow.getCursor();
     output += `\x1b[${cursor.y + 1};${cursor.x + 1}H`;
     output += '\x1b[?25h'; // show cursor
+    output += '\x1b[0m';   // reset style
 
-    if (output) stdout.write(output);
+    stdout.write(output);
     this.activeCells = new Set();
   }
 
