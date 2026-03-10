@@ -1,0 +1,79 @@
+<div align="center">
+  <h1>claude-code-dvd</h1>
+  <p>A bouncing DVD logo overlay for Claude Code — appears while Claude is thinking</p>
+</div>
+
+---
+
+## How It Works
+
+A PTY proxy wraps Claude Code with a shadow terminal. When Claude is thinking, an animated ASCII visual (default: bouncing DVD logo) renders as a transparent overlay on top of the terminal. When thinking stops, the overlay disappears and the original terminal content is perfectly restored.
+
+## Installation
+
+1. Clone the repo and install dependencies:
+
+```bash
+git clone <repo-url>
+cd claude-code-dvd
+./install.sh
+```
+
+2. Add the following hooks to your `~/.claude/settings.json`:
+
+```json
+  "hooks": {
+    "UserPromptSubmit": [
+      {
+        "matcher": "",
+        "hooks": [{ "type": "command", "command": "/path/to/hooks/start-overlay.sh" }]
+      }
+    ],
+    "Stop": [
+      {
+        "matcher": "",
+        "hooks": [{ "type": "command", "command": "/path/to/hooks/stop-overlay.sh" }]
+      }
+    ]
+  }
+```
+
+3. Launch Claude through the overlay:
+
+```bash
+./bin/claude-overlay
+```
+
+## Configuration
+
+### Custom Visuals
+
+Drop any ASCII art `.txt` file into `visuals/`, then update `config.json`:
+
+```json
+{
+  "dvd-bounce": {
+    "artFile": "visuals/your-art.txt"
+  }
+}
+```
+
+### Colors
+
+Edit the color palette in `src/animations/dvd-bounce.js`:
+
+```js
+this.colors = [174, 114, 186, 110, 139, 152];
+```
+
+Values are [256-color ANSI codes](https://en.wikipedia.org/wiki/ANSI_escape_code#8-bit).
+
+### FPS
+
+Adjust animation speed in `config.json`:
+
+```json
+{
+  "fps": 15
+}
+```
