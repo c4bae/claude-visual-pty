@@ -1,0 +1,47 @@
+#!/usr/bin/env node
+
+import { readFileSync } from 'fs';
+import { resolve, dirname } from 'path';
+import { fileURLToPath } from 'url';
+import { start } from '../src/launcher.js';
+
+const __dirname = dirname(fileURLToPath(import.meta.url));
+const rootDir = resolve(__dirname, '..');
+
+// Parse CLI args
+const args = process.argv.slice(2);
+let visual = null;
+let fps = null;
+let configPath = resolve(rootDir, 'config.json');
+const claudeArgs = [];
+
+for (let i = 0; i < args.length; i++) {
+  if (args[i] === '--visual' && args[i + 1]) {
+    visual = args[++i];
+  } else if (args[i] === '--fps' && args[i + 1]) {
+    fps = parseInt(args[++i], 10);
+  } else if (args[i] === '--config' && args[i + 1]) {
+    configPath = resolve(args[++i]);
+  } else {
+    claudeArgs.push(args[i]);
+  }
+}
+
+// Load config
+let config = {};
+try {
+  config = JSON.parse(readFileSync(configPath, 'utf-8'));
+} catch {
+  // Use defaults if config not found
+}
+
+// CLI overrides
+if (visual) config.visual = visual;
+if (fps) config.fps = fps;
+
+// Defaults
+config.visual = config.visual || 'dvd-bounce';
+config.fps = config.fps || 15;
+config.rootDir = rootDir;
+
+start(config, claudeArgs);

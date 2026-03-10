@@ -1,0 +1,16 @@
+{
+  "name": "claude-thinking-overlay",
+  "version": "1.0.0",
+  "description": "Animated PTY-based terminal overlay for Claude Code thinking visualization",
+  "type": "module",
+  "bin": {
+    "claude-overlay": "./bin/claude-overlay"
+  },
+  "scripts": {
+    "start": "node bin/claude-overlay"
+  },
+  "dependencies": {
+    "node-pty": "^1.0.0",
+    "@xterm/headless": "^5.5.0"
+  }
+}
