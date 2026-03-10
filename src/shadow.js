@@ -12,7 +12,7 @@ export class ShadowTerminal {
 
   getCell(row, col) {
     const buffer = this.terminal.buffer.active;
-    const line = buffer.getLine(row + buffer.viewportY);
+    const line = buffer.getLine(row);
     if (!line) return { char: ' ', width: 1, fg: null, bg: null, bold: false, italic: false, underline: false };
     const cell = line.getCell(col);
     if (!cell) return { char: ' ', width: 1, fg: null, bg: null, bold: false, italic: false, underline: false };

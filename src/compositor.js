@@ -5,6 +5,7 @@ export class Compositor {
     this.animationInterval = null;
     this.frame = 0;
     this.running = false;
+    this.startCount = 0;
   }
 
   start(animation, shadow, stdout) {
@@ -13,15 +14,22 @@ export class Compositor {
     this.frame = 0;
     this.activeCells = new Set();
 
+    this.startCount++;
+    this.rowOffset = this.startCount === 1 ? -1 : 0;
+
     animation.start(stdout.columns, stdout.rows);
 
     // Hide cursor during overlay to reduce flicker
     stdout.write('\x1b[?25l');
 
-    this.animationInterval = setInterval(() => {
-      this.renderFrame(animation, shadow, stdout);
-      this.frame++;
-    }, 1000 / this.fps);
+    // Delay first frame slightly to let shadow terminal sync
+    setTimeout(() => {
+      if (!this.running) return;
+      this.animationInterval = setInterval(() => {
+        this.renderFrame(animation, shadow, stdout);
+        this.frame++;
+      }, 1000 / this.fps);
+    }, 150);
   }
 
   renderFrame(animation, shadow, stdout) {
@@ -36,7 +44,7 @@ export class Compositor {
     for (const key of this.activeCells) {
       if (!newCellSet.has(key)) {
         const [row, col] = key.split(',').map(Number);
-        const original = shadow.getCell(row, col);
+        const original = shadow.getCell(row + this.rowOffset, col);
         output += this.buildCellSequence(row, col, original);
       }
     }
@@ -48,7 +56,7 @@ export class Compositor {
 
     // 3. RESTORE CURSOR: put cursor back where Claude expects it
     const cursor = shadow.getCursor();
-    output += `\x1b[${cursor.y + 1};${cursor.x + 1}H`;
+    output += `\x1b[${cursor.y + 1 - this.rowOffset};${cursor.x + 1}H`;
 
     // 4. FLUSH: single write, minimal flicker
     if (output) stdout.write(output);
@@ -69,7 +77,7 @@ export class Compositor {
     let output = '';
     for (let row = 0; row < rows; row++) {
       for (let col = 0; col < cols; col++) {
-        const cell = shadow.getCell(row, col);
+        const cell = shadow.getCell(row + this.rowOffset, col);
         // Skip second cell of wide characters
         if (cell.width === 0) continue;
         output += this.buildCellSequence(row, col, cell);
@@ -80,7 +88,7 @@ export class Compositor {
 
     // Restore cursor position and visibility
     const cursor = shadow.getCursor();
-    output += `\x1b[${cursor.y + 1};${cursor.x + 1}H`;
+    output += `\x1b[${cursor.y + 1 - this.rowOffset};${cursor.x + 1}H`;
     output += '\x1b[?25h'; // show cursor
     output += '\x1b[0m';   // reset style
 
