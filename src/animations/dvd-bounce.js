@@ -58,28 +58,30 @@ export default class DVDBounce extends Animation {
     this.y += this.dy;
 
     // Bounce off edges
-    let bounced = false;
+    let bouncedX = false;
+    let bouncedY = false;
     if (this.x <= 0) {
       this.x = 0;
       this.dx = Math.abs(this.dx);
-      bounced = true;
+      bouncedX = true;
     } else if (this.x + this.artWidth >= cols) {
       this.x = Math.max(0, cols - this.artWidth);
       this.dx = -Math.abs(this.dx);
-      bounced = true;
+      bouncedX = true;
     }
 
     if (this.y <= 0) {
       this.y = 0;
       this.dy = Math.abs(this.dy);
-      bounced = true;
+      bouncedY = true;
     } else if (this.y + this.artHeight >= rows) {
       this.y = Math.max(0, rows - this.artHeight);
       this.dy = -Math.abs(this.dy);
-      bounced = true;
+      bouncedY = true;
     }
 
-    if (bounced) {
+    // Only change color when hitting a corner (both axes bounce)
+    if (bouncedX && bouncedY) {
       this.colorIndex = (this.colorIndex + 1) % this.colors.length;
     }
 
