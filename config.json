@@ -2,7 +2,7 @@
   "visual": "dvd-bounce",
   "fps": 15,
   "dvd-bounce": {
-    "artFile": "visuals/dvd-logo.txt",
+    "artFile": "visuals/dvd.txt",
     "speed": 1
   }
 }
