@@ -43,13 +43,13 @@ if [ -f "$SETTINGS_FILE" ]; then
     "PreToolUse": [
       {
         "matcher": "",
-        "command": "$SCRIPT_DIR/hooks/start-overlay.sh"
+        "hooks": [{ "type": "command", "command": "$SCRIPT_DIR/hooks/start-overlay.sh" }]
       }
     ],
     "PostToolUse": [
       {
         "matcher": "",
-        "command": "$SCRIPT_DIR/hooks/stop-overlay.sh"
+        "hooks": [{ "type": "command", "command": "$SCRIPT_DIR/hooks/stop-overlay.sh" }]
       }
     ]
   }
@@ -62,13 +62,13 @@ else
     "PreToolUse": [
       {
         "matcher": "",
-        "command": "$SCRIPT_DIR/hooks/start-overlay.sh"
+        "hooks": [{ "type": "command", "command": "$SCRIPT_DIR/hooks/start-overlay.sh" }]
       }
     ],
     "PostToolUse": [
       {
         "matcher": "",
-        "command": "$SCRIPT_DIR/hooks/stop-overlay.sh"
+        "hooks": [{ "type": "command", "command": "$SCRIPT_DIR/hooks/stop-overlay.sh" }]
       }
     ]
   }
