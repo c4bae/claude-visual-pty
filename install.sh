@@ -40,13 +40,13 @@ if [ -f "$SETTINGS_FILE" ]; then
   cat <<HOOKEOF
 {
   "hooks": {
-    "PreToolUse": [
+    "UserPromptSubmit": [
       {
         "matcher": "",
         "hooks": [{ "type": "command", "command": "$SCRIPT_DIR/hooks/start-overlay.sh" }]
       }
     ],
-    "PostToolUse": [
+    "Stop": [
       {
         "matcher": "",
         "hooks": [{ "type": "command", "command": "$SCRIPT_DIR/hooks/stop-overlay.sh" }]
@@ -59,13 +59,13 @@ else
   cat > "$SETTINGS_FILE" <<HOOKEOF
 {
   "hooks": {
-    "PreToolUse": [
+    "UserPromptSubmit": [
       {
         "matcher": "",
         "hooks": [{ "type": "command", "command": "$SCRIPT_DIR/hooks/start-overlay.sh" }]
       }
     ],
-    "PostToolUse": [
+    "Stop": [
       {
         "matcher": "",
         "hooks": [{ "type": "command", "command": "$SCRIPT_DIR/hooks/stop-overlay.sh" }]
