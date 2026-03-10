@@ -2,7 +2,7 @@
   "visual": "dvd-bounce",
   "fps": 15,
   "dvd-bounce": {
-    "artFile": "visuals/dvd.txt",
+    "artFile": "visuals/claude.txt",
     "speed": 1
   }
 }
