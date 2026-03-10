@@ -15,7 +15,7 @@ export default class DVDBounce extends Animation {
     this.y = 0;
     this.dx = 1;
     this.dy = 1;
-    this.colors = [196, 46, 226, 21, 201, 51]; // red, green, yellow, blue, magenta, cyan
+    this.colors = [174, 114, 186, 110, 139, 152]; // soft rose, soft lavender, soft mauve, soft sage, soft plum, soft steel
     this.colorIndex = 0;
   }
 
@@ -80,8 +80,7 @@ export default class DVDBounce extends Animation {
       bouncedY = true;
     }
 
-    // Only change color when hitting a corner (both axes bounce)
-    if (bouncedX && bouncedY) {
+    if (bouncedX || bouncedY) {
       this.colorIndex = (this.colorIndex + 1) % this.colors.length;
     }
 
