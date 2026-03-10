@@ -3,6 +3,10 @@
   <p>A bouncing DVD logo overlay for Claude Code — appears while Claude is thinking</p>
 </div>
 
+
+
+https://github.com/user-attachments/assets/1e97ee32-2b06-4e31-aa12-1ec5eade2029
+
 ---
 
 ## How It Works
