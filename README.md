@@ -1,7 +1,9 @@
 <div align="center">
   <h1>claude-code-dvd</h1>
   <p>A bouncing DVD logo overlay for Claude Code — appears while Claude is thinking</p>
-</div>
+</div> 
+
+https://github.com/user-attachments/assets/b5d4486c-5213-43aa-9c00-fddb3bed5217
 
 ---
 
@@ -46,19 +48,6 @@ cd claude-code-dvd
 
 ## Default Visuals
 
-### DVD Logo (`visuals/dvd-logo.txt`)
-
-```
-╔═══════════════════════════╗
-║ ██████╗ ██╗   ██╗██████╗  ║
-║ ██╔══██╗██║   ██║██╔══██╗ ║
-║ ██║  ██║██║   ██║██║  ██║ ║
-║ ██║  ██║╚██╗ ██╔╝██║  ██║ ║
-║ ██████╔╝ ╚████╔╝ ██████╔╝ ║
-║ ╚═════╝   ╚═══╝  ╚═════╝  ║
-╚═══════════════════════════╝
-```
-
 ### Claude (`visuals/claude.txt`)
 
 ```
@@ -70,6 +59,21 @@ cd claude-code-dvd
 ║      ██  ██    ██  ██      ║
 ║      ██  ██    ██  ██      ║
 ╚════════════════════════════╝
+```
+```if you have a better ASCII art for claude plz make a PR```
+
+
+### DVD Logo (`visuals/dvd-logo.txt`)
+
+```
+╔═══════════════════════════╗
+║ ██████╗ ██╗   ██╗██████╗  ║
+║ ██╔══██╗██║   ██║██╔══██╗ ║
+║ ██║  ██║██║   ██║██║  ██║ ║
+║ ██║  ██║╚██╗ ██╔╝██║  ██║ ║
+║ ██████╔╝ ╚████╔╝ ██████╔╝ ║
+║ ╚═════╝   ╚═══╝  ╚═════╝  ║
+╚═══════════════════════════╝
 ```
 
 > **Tip:** "Boxed" designs (with a border like `╔═╗║╚═╝`) tend to look better as overlays since they have a clear boundary against the terminal content.
@@ -107,3 +111,6 @@ Adjust animation speed in `config.json`:
   "fps": 15
 }
 ```
+
+## Attributions
+Inspired by https://x.com/itseieio/status/2029643861866299857?s=46
