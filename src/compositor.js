@@ -87,6 +87,24 @@ export class Compositor {
     this.lastCells = newCells;
   }
 
+  // Lightweight cancel: kill the animation and clear overlay cells,
+  // but skip the full screen repaint. Used for Ctrl+C where Claude's
+  // interrupt response will naturally redraw the screen.
+  cancel(shadow, stdout) {
+    if (!this.running) return;
+    this.running = false;
+    clearInterval(this.animationInterval);
+    this.animationInterval = null;
+
+    // Restore only the cells the overlay was covering
+    this.clearOverlay(shadow, stdout);
+
+    stdout.write('\x1b[?25h'); // show cursor
+    stdout.write('\x1b[0m');   // reset style
+    this.activeCells = new Set();
+    this.lastCells = null;
+  }
+
   stop(shadow, stdout) {
     if (!this.running) return;
     this.running = false;

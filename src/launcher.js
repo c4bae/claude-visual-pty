@@ -72,7 +72,17 @@ export async function start(config, claudeArgs = []) {
   });
 
   // User input → forward to Claude
+  // Detect interrupt keys (Escape or Ctrl+C) and cancel the overlay
+  // immediately. The Stop hook is unreliable on interrupt — sometimes
+  // Claude doesn't emit the Stop event at all.
   process.stdin.on('data', (data) => {
+    if (compositor.running) {
+      const byte = typeof data === 'string' ? data.charCodeAt(0) : data[0];
+      // Escape (any sequence starting with 0x1b) or Ctrl+C (0x03)
+      if (byte === 0x1b || byte === 3) {
+        compositor.cancel(shadow, process.stdout);
+      }
+    }
     ptyProcess.write(data);
   });
 
@@ -110,6 +120,8 @@ export async function start(config, claudeArgs = []) {
   // Handle signals
   process.on('SIGINT', () => {
     // Forward to PTY, don't exit ourselves
+    // (In raw mode, Ctrl+C comes via stdin data handler instead)
+    compositor.cancel(shadow, process.stdout);
     ptyProcess.write('\x03');
   });
 
