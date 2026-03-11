@@ -17,7 +17,6 @@ A PTY proxy wraps Claude Code with a shadow terminal. When Claude is thinking, a
 1. Clone the repo and install dependencies:
 
 ```bash
-git clone <repo-url>
 cd claude-code-dvd
 ./install.sh
 ```
