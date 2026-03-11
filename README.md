@@ -1,7 +1,7 @@
 <div align="center">
   <h1>claude-code-dvd</h1>
   <p>A bouncing DVD logo overlay for Claude Code — appears while Claude is thinking</p>
-  <p><b>VERY BUGGY STATE</b></p>
+  <p><b>MacOS Only - In very early develpoment</b></p>
 </div> 
 
 https://github.com/user-attachments/assets/ea48d9c9-62f9-4a85-a7ea-e3a85072c658
