@@ -21,7 +21,7 @@ npm install
 echo "[ok] Dependencies installed"
 
 # Make scripts executable
-chmod +x "$SCRIPT_DIR/bin/claude-overlay"
+chmod +x "$SCRIPT_DIR/bin/claude-pty"
 chmod +x "$SCRIPT_DIR/hooks/start-overlay.sh"
 chmod +x "$SCRIPT_DIR/hooks/stop-overlay.sh"
 echo "[ok] Scripts made executable"
