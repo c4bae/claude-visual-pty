@@ -58,9 +58,12 @@ export async function start(config, claudeArgs = []) {
   );
 
   // Claude output → forward to BOTH real terminal and shadow terminal
+  // Clear overlay before writing so clean content enters scrollback
   ptyProcess.onData((data) => {
+    if (compositor.running) compositor.clearOverlay(shadow, process.stdout);
     process.stdout.write(data);
     shadow.write(data);
+    if (compositor.running) compositor.redrawOverlay(process.stdout);
   });
 
   // User input → forward to Claude

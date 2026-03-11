@@ -5,6 +5,7 @@ export class Compositor {
     this.animationInterval = null;
     this.frame = 0;
     this.running = false;
+    this.startCount = 0;
   }
 
   start(animation, shadow, stdout) {
@@ -13,7 +14,8 @@ export class Compositor {
     this.frame = 0;
     this.activeCells = new Set();
 
-    this.rowOffset = 0;
+    this.startCount++;
+    this.rowOffset = this.startCount === 1 ? -1 : 0;
 
     animation.start(stdout.columns, stdout.rows);
 
@@ -28,6 +30,30 @@ export class Compositor {
         this.frame++;
       }, 1000 / this.fps);
     }, 150);
+  }
+
+  // Clear overlay pixels so clean content goes to scrollback
+  clearOverlay(shadow, stdout) {
+    if (this.activeCells.size === 0) return;
+    let output = '';
+    for (const key of this.activeCells) {
+      const [row, col] = key.split(',').map(Number);
+      const original = shadow.getCell(row + this.rowOffset, col);
+      output += this.buildCellSequence(row, col, original);
+    }
+    const cursor = shadow.getCursor();
+    output += `\x1b[${cursor.y + 1 - this.rowOffset};${cursor.x + 1}H`;
+    if (output) stdout.write(output);
+  }
+
+  // Redraw overlay after Claude's data has been written
+  redrawOverlay(stdout) {
+    if (this.activeCells.size === 0 || !this.lastCells) return;
+    let output = '';
+    for (const cell of this.lastCells) {
+      output += this.buildOverlayCellSequence(cell);
+    }
+    if (output) stdout.write(output);
   }
 
   renderFrame(animation, shadow, stdout) {
@@ -60,6 +86,7 @@ export class Compositor {
     if (output) stdout.write(output);
 
     this.activeCells = newCellSet;
+    this.lastCells = newCells;
   }
 
   stop(shadow, stdout) {
@@ -92,6 +119,26 @@ export class Compositor {
 
     stdout.write(output);
     this.activeCells = new Set();
+
+    // Safety repaint after shadow has fully synced — catches any stale pixels
+    const rowOffset = this.rowOffset;
+    setTimeout(() => {
+      if (this.running) return; // new overlay started, skip
+      const c = stdout.columns || 80;
+      const r = stdout.rows || 24;
+      let buf = '';
+      for (let row = 0; row < r; row++) {
+        for (let col = 0; col < c; col++) {
+          const cell = shadow.getCell(row + rowOffset, col);
+          if (cell.width === 0) continue;
+          buf += this.buildCellSequence(row, col, cell);
+          if (cell.width === 2) col++;
+        }
+      }
+      const cur = shadow.getCursor();
+      buf += `\x1b[${cur.y + 1 - rowOffset};${cur.x + 1}H`;
+      stdout.write(buf);
+    }, 500);
   }
 
   resize(cols, rows) {

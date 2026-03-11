@@ -61,6 +61,10 @@ export class ShadowTerminal {
     return { x: buffer.cursorX, y: buffer.cursorY };
   }
 
+  getBaseY() {
+    return this.terminal.buffer.active.baseY;
+  }
+
   resize(cols, rows) {
     this.terminal.resize(cols, rows);
   }
