@@ -5,7 +5,6 @@ export class Compositor {
     this.animationInterval = null;
     this.frame = 0;
     this.running = false;
-    this.startCount = 0;
   }
 
   start(animation, shadow, stdout) {
@@ -14,8 +13,7 @@ export class Compositor {
     this.frame = 0;
     this.activeCells = new Set();
 
-    this.startCount++;
-    this.rowOffset = this.startCount === 1 ? -1 : 0;
+    this.rowOffset = 0;
 
     animation.start(stdout.columns, stdout.rows);
 

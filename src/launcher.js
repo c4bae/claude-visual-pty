@@ -20,6 +20,11 @@ export async function start(config, claudeArgs = []) {
   const cols = process.stdout.columns || 80;
   const rows = process.stdout.rows || 24;
 
+  // Clear screen so the real terminal and shadow terminal start in sync.
+  // Without this, existing terminal content causes the real terminal to
+  // scroll at different times than the shadow, misaligning row lookups.
+  process.stdout.write('\x1b[2J\x1b[H');
+
   // Initialize shadow terminal
   const shadow = new ShadowTerminal(cols, rows);
 
