@@ -80,5 +80,5 @@ fi
 echo ""
 echo "=== Installation complete ==="
 echo ""
-echo "Usage: Run 'claude-overlay' instead of 'claude'"
+echo "Usage: Run 'claude-pty' instead of 'claude'" using ./bin/claude-pty
 echo "  Or add to your PATH: export PATH=\"$SCRIPT_DIR/bin:\$PATH\""

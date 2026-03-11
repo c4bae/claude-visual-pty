@@ -43,7 +43,7 @@ cd claude-code-dvd
 3. Launch Claude through the overlay (in project directory):
 
 ```bash
-./bin/claude-overlay
+./bin/claude-pty
 ```
 
 ## Default Visuals
