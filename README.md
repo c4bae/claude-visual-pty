@@ -1,10 +1,10 @@
 <div align="center">
   <h1>claude-code-dvd</h1>
   <p>A bouncing DVD logo overlay for Claude Code — appears while Claude is thinking</p>
-  <p><b>Subject to HEAVY bugs</b></p>
+  <p><b>VERY BUGGY STATE</b></p>
 </div> 
 
-https://github.com/user-attachments/assets/b5d4486c-5213-43aa-9c00-fddb3bed5217
+https://github.com/user-attachments/assets/ea48d9c9-62f9-4a85-a7ea-e3a85072c658
 
 ---
 
@@ -41,7 +41,7 @@ cd claude-code-dvd
   }
 ```
 
-3. Launch Claude through the overlay:
+3. Launch Claude through the overlay (in project directory):
 
 ```bash
 ./bin/claude-overlay
