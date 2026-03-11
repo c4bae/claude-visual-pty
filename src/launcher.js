@@ -78,9 +78,16 @@ export async function start(config, claudeArgs = []) {
   process.stdin.on('data', (data) => {
     if (compositor.running) {
       const byte = typeof data === 'string' ? data.charCodeAt(0) : data[0];
-      // Escape (any sequence starting with 0x1b) or Ctrl+C (0x03)
-      if (byte === 0x1b || byte === 3) {
+      // Escape (any sequence starting with 0x1b) or Ctrl+C (0x03),
+      // but NOT terminal focus events from alt-tab (\x1b[I / \x1b[O)
+      if (byte === 3) {
         compositor.cancel(shadow, process.stdout);
+      } else if (byte === 0x1b) {
+        const second = data.length > 2 ? (typeof data === 'string' ? data.charCodeAt(2) : data[2]) : -1;
+        const isFocusEvent = data.length === 3 && (second === 0x49 || second === 0x4f); // 'I' or 'O'
+        if (!isFocusEvent) {
+          compositor.cancel(shadow, process.stdout);
+        }
       }
     }
     ptyProcess.write(data);
