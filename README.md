@@ -1,6 +1,6 @@
 <div align="center">
   <h1>claude-code-dvd</h1>
-  <p>A bouncing DVD logo overlay for Claude Code — appears while Claude is thinking</p>
+  <p>A bouncing DVD logo overlay for Claude Code — appears while Claude is thinking.</p>
   <p><b>MacOS Only - In very early develpoment</b></p>
 </div> 
 
